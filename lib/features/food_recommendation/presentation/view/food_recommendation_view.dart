@@ -22,19 +22,17 @@ class _FoodRecommendationViewState extends State<FoodRecommendationView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-                backgroundColor: const Color(0xFF670977),
-
-            appBar: AppBar(
+      backgroundColor: const Color(0xFF670977),
+      appBar: AppBar(
         automaticallyImplyLeading: false,
-        
-  backgroundColor: const Color(0xFF670977),
-          title: Text(
+        backgroundColor: const Color(0xFF670977),
+        title: Text(
           'Recommended Food',
-          style: GoogleFonts.amaranth(color: Colors.white,fontWeight: FontWeight.bold, fontSize: 20),
-                  // centerTitle: true,
-        // elevation: 0,
+          style: GoogleFonts.amaranth(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+          // centerTitle: true,
+          // elevation: 0,
         ),
-      
       ),
       body: Column(
         children: [
@@ -46,10 +44,18 @@ class _FoodRecommendationViewState extends State<FoodRecommendationView> {
                 return ElevatedButton(
                   onPressed: () => _selectCategory(index),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: _selectedCategory == index ?  Color(0xFFF9AB0B) : Colors.white,
+                    backgroundColor: _selectedCategory == index
+                        ? Color(0xFFF9AB0B)
+                        : Colors.white,
                     foregroundColor: Colors.black,
                   ),
-                  child: Text(categories[index], style: GoogleFonts.amaranth(color: Colors.black,fontWeight: FontWeight.bold, fontSize:14),),
+                  child: Text(
+                    categories[index],
+                    style: GoogleFonts.amaranth(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14),
+                  ),
                 );
               }),
             ),
@@ -88,28 +94,44 @@ class _FoodRecommendationViewState extends State<FoodRecommendationView> {
             MaterialPageRoute(builder: (context) => ItemView()),
           ),
           child: Card(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             child: Column(
               children: [
-                Image.asset('assets/images/food.png', height: 100,width: 100, fit: BoxFit.cover),
+                Image.asset('assets/images/sandwich.png',
+                    height: 100, width: 100, fit: BoxFit.cover),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      
-                      Text('Sandwich',  style: GoogleFonts.amaranth(color: Colors.black,fontWeight: FontWeight.bold, fontSize:14),),
-                      Text('340 Kcal', style: GoogleFonts.amaranth(color: Color(0xFF670977), fontSize:14),),
+                      Text(
+                        'Sandwich',
+                        style: GoogleFonts.amaranth(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14),
+                      ),
+                      Text(
+                        '340 Kcal',
+                        style: GoogleFonts.amaranth(
+                            color: Color(0xFF670977), fontSize: 14),
+                      ),
                       SizedBox(height: 5),
                       ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor:  const Color(0xFFF9AB0B),
-
+                          backgroundColor: const Color(0xFFF9AB0B),
                           foregroundColor: Colors.black,
                           minimumSize: Size(double.infinity, 36),
                         ),
-                        child: Text('Add to list', style: GoogleFonts.amaranth(color: Colors.black,fontWeight: FontWeight.bold, fontSize:14),),
+                        child: Text(
+                          'Add to list',
+                          style: GoogleFonts.amaranth(
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
+                        ),
                       ),
                     ],
                   ),
