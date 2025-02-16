@@ -44,18 +44,82 @@ class _QuestionScreenState extends State<QuestionScreen> {
   int currentQuestionIndex = 0;
   final double _buttonWidth = 300;
   final double _buttonHeight = 60;
- // final double _imageSize = 70;
+  // final double _imageSize = 70;
 
   final List<Map<String, dynamic>> questions = [
-    {"type": "choices", "question": "What is your gender?", "options": ["Male", "Female"], "key": "gender", "multiSelect": false},
-    {"type": "choices", "question": "I am a...", "options": ["Standard", "Vegetarian", "Vegan", "Pescatarian", "Gluten-Free"], "key": "diet", "multiSelect": false},
-    {"type": "choices", "question": "Which meals do you usually have?", "options": ["Breakfast", "Snack", "Lunch", "Dinner"], "key": "meals", "multiSelect": true},
-    {"type": "choices", "question": "Do you have any chronic diseases?", "options": ["Diabetes", "Heart Disease", "Cancer", "Other"], "key": "chronic_diseases", "multiSelect": true},
-    {"type": "choices", "question": "You want to...", "options": ["Lose Weight", "Gain Weight", "Stabilize Weight"], "key": "goal", "multiSelect": false},
-    {"type": "number", "question": "What is your age?", "minValue": 10, "maxValue": 100, "initialValue": 25, "key": "age"},
-    {"type": "number", "question": "What is your current weight?", "minValue": 40, "maxValue": 200, "initialValue": 70, "key": "current_weight"},
-    {"type": "number", "question": "What is your goal weight?", "minValue": 40, "maxValue": 200, "initialValue": 60, "key": "goal_weight"},
-    {"type": "number", "question": "What is your height?", "minValue": 150, "maxValue": 300, "initialValue": 170, "key": "height"},
+    {
+      "type": "choices",
+      "question": "What is your gender?",
+      "options": ["Male", "Female"],
+      "key": "gender",
+      "multiSelect": false
+    },
+    {
+      "type": "choices",
+      "question": "I am a...",
+      "options": [
+        "Standard",
+        "Vegetarian",
+        "Vegan",
+        "Pescatarian",
+        "Gluten-Free"
+      ],
+      "key": "diet",
+      "multiSelect": false
+    },
+    {
+      "type": "choices",
+      "question": "Which meals do you usually have?",
+      "options": ["Breakfast", "Snack", "Lunch", "Dinner"],
+      "key": "meals",
+      "multiSelect": true
+    },
+    {
+      "type": "choices",
+      "question": "Do you have any chronic diseases?",
+      "options": ["Diabetes", "Heart Disease", "Cancer", "Other"],
+      "key": "chronic_diseases",
+      "multiSelect": true
+    },
+    {
+      "type": "choices",
+      "question": "You want to...",
+      "options": ["Lose Weight", "Gain Weight", "Stabilize Weight"],
+      "key": "goal",
+      "multiSelect": false
+    },
+    {
+      "type": "number",
+      "question": "What is your age?",
+      "minValue": 10,
+      "maxValue": 100,
+      "initialValue": 25,
+      "key": "age"
+    },
+    {
+      "type": "number",
+      "question": "What is your current weight?",
+      "minValue": 40,
+      "maxValue": 200,
+      "initialValue": 70,
+      "key": "current_weight"
+    },
+    {
+      "type": "number",
+      "question": "What is your goal weight?",
+      "minValue": 40,
+      "maxValue": 200,
+      "initialValue": 60,
+      "key": "goal_weight"
+    },
+    {
+      "type": "number",
+      "question": "What is your height?",
+      "minValue": 150,
+      "maxValue": 300,
+      "initialValue": 170,
+      "key": "height"
+    },
   ];
 
   final Map<String, dynamic> answers = {};
@@ -92,35 +156,37 @@ class _QuestionScreenState extends State<QuestionScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
-        children: [AnimatedSwitcher(
-  duration: const Duration(milliseconds: 300), // سرعة التغيير
-  transitionBuilder: (Widget child, Animation<double> animation) {
-    return FadeTransition(
-      opacity: animation,
-      child: child,
-    );
-  },
-  child: ClipPath(
-    key: ValueKey<int>(currentQuestionIndex), // لازم نغير الـ Key علشان يحصل الأنيميشن
-    clipper: currentQuestionIndex.isEven ? WaveClipperRight() : WaveClipperLeft(),
-    child: Container(
-      height: 150,
-      color: const Color(0xFF670977),
-    ),
-  ),
-),
+        children: [
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300), // سرعة التغيير
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+            child: ClipPath(
+              key: ValueKey<int>(
+                  currentQuestionIndex), // لازم نغير الـ Key علشان يحصل الأنيميشن
+              clipper: currentQuestionIndex.isEven
+                  ? WaveClipperRight()
+                  : WaveClipperLeft(),
+              child: Container(
+                height: 150,
+                color: const Color(0xFF670977),
+              ),
+            ),
+          ),
           Column(
             children: [
-              SizedBox(height:MediaQuery.of(context).size.height * 0.3),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.3),
               Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(questionText, 
+                    Text(questionText,
                         style: GoogleFonts.amaranth(
-                          fontSize: 20, 
-                          fontWeight: FontWeight.bold
-                        )),
+                            fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 20),
                     if (questionType == "number") ...[
                       NumberPicker(
@@ -132,10 +198,20 @@ class _QuestionScreenState extends State<QuestionScreen> {
                             answers[key] = value;
                           });
                         },
+                        textStyle: GoogleFonts.amaranth(
+                          color: const Color(0xFF670977),
+                          fontSize: 20,
+                        ),
+                        selectedTextStyle: GoogleFonts.amaranth(
+                          color: const Color(0xFFF9AB0B),
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ] else if (questionType == "choices") ...[
                       Column(
-                        children: currentQuestion["options"].map<Widget>((option) {
+                        children:
+                            currentQuestion["options"].map<Widget>((option) {
                           bool isSelected = multiSelect
                               ? (answers[key] ?? []).contains(option)
                               : answers[key] == option;
@@ -146,7 +222,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                   if (isSelected) {
                                     (answers[key] ?? []).remove(option);
                                   } else {
-                                    answers[key] = (answers[key] ?? [])..add(option);
+                                    answers[key] = (answers[key] ?? [])
+                                      ..add(option);
                                   }
                                 } else {
                                   answers[key] = option;
@@ -158,18 +235,23 @@ class _QuestionScreenState extends State<QuestionScreen> {
                               height: _buttonHeight,
                               margin: const EdgeInsets.symmetric(vertical: 5),
                               decoration: BoxDecoration(
-                                color: isSelected ? const Color(0xFFF9AB0B) : Colors.grey[300],
+                                color: isSelected
+                                    ? const Color(0xFFF9AB0B)
+                                    : Colors.grey[300],
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(
-                                  color: isSelected ? const Color(0xFFF9AB0B) : Colors.grey, 
-                                  width: 2
-                                ),
+                                    color: isSelected
+                                        ? const Color(0xFFF9AB0B)
+                                        : Colors.grey,
+                                    width: 2),
                               ),
                               child: Center(
                                 child: Text(
                                   option,
                                   style: GoogleFonts.amaranth(
-                                    color: isSelected ? Colors.black : Colors.grey[900],
+                                    color: isSelected
+                                        ? Colors.black
+                                        : Colors.grey[900],
                                     fontSize: 17,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -181,12 +263,36 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       ),
                     ],
                     const SizedBox(height: 20),
+
+                    // Add page indicators here
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(
+                        questions.length,
+                        (index) => AnimatedContainer(
+                          duration: const Duration(milliseconds: 350),
+                          margin: const EdgeInsets.symmetric(horizontal: 4),
+                          width: currentQuestionIndex == index ? 12 : 8,
+                          height: currentQuestionIndex == index ? 12 : 8,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: currentQuestionIndex == index
+                                ? const Color(0xFFF9AB0B)
+                                : Colors.grey,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.6,
                       child: ElevatedButton(
                         onPressed: _goToNextQuestion,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: isLastPage ? const Color(0xFFF9AB0B) : const Color(0xFF670977),
+                          backgroundColor: isLastPage
+                              ? const Color(0xFFF9AB0B)
+                              : const Color(0xFF670977),
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),

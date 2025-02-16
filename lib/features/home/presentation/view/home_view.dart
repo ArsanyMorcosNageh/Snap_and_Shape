@@ -18,7 +18,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -45,8 +45,7 @@ class _HomeViewState extends State<HomeView> {
             _buildExpandableMealSection('Snacks', 120, 130),
             _buildExpandableMealSection('Lunch', 600, 400),
             _buildExpandableMealSection('Dinner', 380, 0),
-                      SizedBox(height: screenHeight * 0.03),
-
+            SizedBox(height: screenHeight * 0.03),
           ],
         ),
       ),
@@ -124,32 +123,21 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _buildActionButtons() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _buildCustomButton(
-              'Analysis', 
-              Color(0xFFF9AB0B), 
-              Icons.analytics, 
-              constraints.maxWidth * 0.4,
-              () {}
-            ),
-            _buildCustomButton(
-              'Camera', 
-              Color(0xFFF9AB0B), 
-              Icons.camera_alt, 
-              constraints.maxWidth * 0.4,
-              () {}
-            ),
-          ],
-        );
-      }
-    );
+    return LayoutBuilder(builder: (context, constraints) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildCustomButton('Analysis', Color(0xFFF9AB0B), Icons.analytics,
+              constraints.maxWidth * 0.4, () {}),
+          _buildCustomButton('Camera', Color(0xFFF9AB0B), Icons.camera_alt,
+              constraints.maxWidth * 0.4, () {}),
+        ],
+      );
+    });
   }
 
-  Widget _buildCustomButton(String label, Color color, IconData icon, double width, VoidCallback onPressed) {
+  Widget _buildCustomButton(String label, Color color, IconData icon,
+      double width, VoidCallback onPressed) {
     return SizedBox(
       width: width,
       child: ElevatedButton(
@@ -183,7 +171,8 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildExpandableMealSection(String mealType, int suggestedCalories, int consumedCalories) {
+  Widget _buildExpandableMealSection(
+      String mealType, int suggestedCalories, int consumedCalories) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
@@ -224,8 +213,8 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ),
                   Icon(
-                    mealExpansionStates[mealType]! 
-                        ? Icons.arrow_drop_up 
+                    mealExpansionStates[mealType]!
+                        ? Icons.arrow_drop_up
                         : Icons.arrow_drop_down,
                     color: const Color(0xFF670977),
                   ),
