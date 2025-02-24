@@ -189,24 +189,48 @@ class _QuestionScreenState extends State<QuestionScreen> {
                             fontSize: 20, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 20),
                     if (questionType == "number") ...[
-                      NumberPicker(
-                        value: answers[key] ?? currentQuestion["initialValue"],
-                        minValue: currentQuestion["minValue"],
-                        maxValue: currentQuestion["maxValue"],
-                        onChanged: (value) {
-                          setState(() {
-                            answers[key] = value;
-                          });
-                        },
-                        textStyle: GoogleFonts.amaranth(
-                          color: const Color(0xFF670977),
-                          fontSize: 20,
-                        ),
-                        selectedTextStyle: GoogleFonts.amaranth(
-                          color: const Color(0xFFF9AB0B),
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          NumberPicker(
+                            value: answers[key] ?? currentQuestion["initialValue"],
+                            minValue: currentQuestion["minValue"],
+                            maxValue: currentQuestion["maxValue"],
+                            onChanged: (value) {
+                              setState(() {
+                                answers[key] = value;
+                              });
+                            },
+                            textStyle: GoogleFonts.amaranth(
+                              color: const Color(0xFF670977),
+                              fontSize: 20,
+                            ),
+                            selectedTextStyle: GoogleFonts.amaranth(
+                              color: const Color(0xFFF9AB0B),
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          if (key == "current_weight" || key == "goal_weight") ...[
+                            Text(
+                              "kg",
+                              style: GoogleFonts.amaranth(
+                                color: const Color(0xFF670977),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ] else if (key == "height") ...[
+                            Text(
+                              "cm",
+                              style: GoogleFonts.amaranth(
+                                color: const Color(0xFF670977),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ],
                       ),
                     ] else if (questionType == "choices") ...[
                       Column(
@@ -318,8 +342,6 @@ class _QuestionScreenState extends State<QuestionScreen> {
     );
   }
 }
-
-
 
 
 
