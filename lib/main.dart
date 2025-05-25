@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:snap_and_shape/core/cache_helper/cache_helper.dart';
 
 import 'core/widgets/spash_screen.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // final prefs = await SharedPreferences.getInstance();
