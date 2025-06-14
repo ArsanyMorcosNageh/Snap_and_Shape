@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'package:snap_and_shape/features/verify_otp/presentation/view/verify_otp.dart';
 import '../../../../core/widgets/auth_content.dart';
@@ -39,7 +40,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
           MaterialPageRoute(builder: (context) => VerifyOTP(email: email)),
         );
       } else {
-        _showAlert(message); // ❗عرض الرسالة من الـ backend
+        _showAlert(message);
       }
     } catch (e) {
       _showAlert("Something went wrong. Please try again.");
@@ -51,15 +52,58 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   void _showAlert(String message) {
     showDialog(
       context: context,
-      builder: (_) => AlertDialog(
-        title: const Text("Reset Password Failed"),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("OK"),
+      builder: (_) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
+        backgroundColor: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(25),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.error_outline, color: Color(0xFF670977), size: 40),
+              const SizedBox(height: 15),
+              Text(
+                'Reset Password Failed',
+                style: GoogleFonts.amaranth(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF670977),
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.amaranth(
+                  fontSize: 17,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFF9AB0B),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                child: Text(
+                  'OK',
+                  style: GoogleFonts.amaranth(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

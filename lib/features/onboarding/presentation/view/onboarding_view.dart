@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snap_and_shape/features/sign_in/presentation/view/sign_in_view.dart';
 import '../../../../core/utils/clip_paths.dart';
+import '../../../../core/widgets/user_prefrences.dart';
 
 class OnboardingView extends StatefulWidget {
   const OnboardingView({Key? key}) : super(key: key);
@@ -43,9 +43,8 @@ class _OnboardingViewState extends State<OnboardingView> {
     });
   }
 
-  void _navigateToHome() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('onboarding_completed', true);
+  Future<void> _navigateToHome() async {
+    await UserPreferences.setOnboardingCompleted(true); // ✅ حفظ الحالة
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => SignInView(),
@@ -211,8 +210,7 @@ class OnboardingPage extends StatelessWidget {
                 (index) => AnimatedContainer(
                   duration: const Duration(milliseconds: 350),
                   margin: const EdgeInsets.symmetric(horizontal: 4),
-                  width:
-                      currentPage == index ? 12 : 8, // تغيير الحجم عند التحديد
+                  width: currentPage == index ? 12 : 8,
                   height: currentPage == index ? 12 : 8,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
