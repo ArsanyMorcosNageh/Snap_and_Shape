@@ -5,7 +5,7 @@ class VerifyContent extends StatefulWidget {
   final String title;
   final List<String> fields;
   final String buttonText;
-  final VoidCallback onButtonPressed;
+  final Future<void> Function() onButtonPressed; // ✅ تم تعديل النوع هنا
   final String bottomText;
   final String bottomButtonText;
   final VoidCallback onBottomButtonPressed;
@@ -32,6 +32,7 @@ class VerifyContent extends StatefulWidget {
 
 class _VerifyContentState extends State<VerifyContent> {
   bool _isPasswordVisible = false;
+  bool _isProcessing = false;
 
   @override
   Widget build(BuildContext context) {
@@ -106,9 +107,15 @@ class _VerifyContentState extends State<VerifyContent> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                   ),
-                  onPressed: widget.onButtonPressed,
+                  onPressed: _isProcessing
+                      ? null
+                      : () async {
+                          setState(() => _isProcessing = true);
+                          await widget.onButtonPressed();
+                          setState(() => _isProcessing = false);
+                        },
                   child: Text(
-                    widget.buttonText,
+                    _isProcessing ? 'Loading...' : widget.buttonText,
                     style: GoogleFonts.amaranth(
                       color: Colors.white,
                       fontSize: screenWidth * 0.05,

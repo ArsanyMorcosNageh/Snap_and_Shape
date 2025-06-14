@@ -7,7 +7,7 @@ class AuthContent extends StatefulWidget {
   final String image;
   final List<String> fields;
   final String buttonText;
-  final VoidCallback onButtonPressed;
+  final VoidCallback? onButtonPressed; // ✅ عدلناها هنا
   final String bottomText;
   final String bottomButtonText;
   final VoidCallback onBottomButtonPressed;
@@ -15,7 +15,12 @@ class AuthContent extends StatefulWidget {
   final VoidCallback? onExtraButtonPressed;
   final Widget? extraWidget;
 
-  AuthContent({
+  final TextEditingController? usernameController;
+  final TextEditingController? emailController;
+  final TextEditingController? passwordController;
+
+  const AuthContent({
+    super.key,
     required this.title,
     required this.image,
     required this.fields,
@@ -27,6 +32,9 @@ class AuthContent extends StatefulWidget {
     this.extraButtonText,
     this.onExtraButtonPressed,
     this.extraWidget,
+    this.usernameController,
+    this.emailController,
+    this.passwordController,
   });
 
   @override
@@ -45,13 +53,13 @@ class _AuthContentState extends State<AuthContent> {
           Column(
             children: [
               Expanded(
-                flex: 3, // زودنا الارتفاع هنا
+                flex: 3,
                 child: Center(
                   child: SvgPicture.asset(widget.image, height: 250),
                 ),
               ),
               Expanded(
-                flex: 5, // نقصنا المساحة البيضاء
+                flex: 5,
                 child: Container(
                   decoration: const BoxDecoration(
                     color: Colors.white,
@@ -76,57 +84,79 @@ class _AuthContentState extends State<AuthContent> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        ...widget.fields.map((field) => Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  field,
-                                  style: GoogleFonts.amaranth(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
+                        ...widget.fields.map((field) {
+                          final controller =
+                              field.toLowerCase().contains('email')
+                                  ? widget.emailController
+                                  : field.toLowerCase().contains('password')
+                                      ? widget.passwordController
+                                      : widget.usernameController;
+
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                field,
+                                style: GoogleFonts.amaranth(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
                                 ),
-                                const SizedBox(height: 5),
-                                TextField(
-                                  obscureText: field.toLowerCase().contains('password') && !_isPasswordVisible,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.white,
-                                    hintText: 'Enter your $field',
-                                    hintStyle: GoogleFonts.amaranth(fontSize: 17, color: Colors.black54),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      borderSide: const BorderSide(color: Color(0xFFF9AB0B), width: 2),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                      borderSide: const BorderSide(color: Color(0xFFF9AB0B), width: 2),
-                                    ),
-                                    suffixIcon: field.toLowerCase().contains('password')
-                                        ? IconButton(
-                                            icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off),
-                                            onPressed: () {
-                                              setState(() {
-                                                _isPasswordVisible = !_isPasswordVisible;
-                                              });
-                                            },
-                                          )
-                                        : null,
+                              ),
+                              const SizedBox(height: 5),
+                              TextField(
+                                controller: controller,
+                                obscureText:
+                                    field.toLowerCase().contains('password') &&
+                                        !_isPasswordVisible,
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  hintText: 'Enter your $field',
+                                  hintStyle: GoogleFonts.amaranth(
+                                      fontSize: 17, color: Colors.black54),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFFF9AB0B), width: 2),
                                   ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFFF9AB0B), width: 2),
+                                  ),
+                                  suffixIcon:
+                                      field.toLowerCase().contains('password')
+                                          ? IconButton(
+                                              icon: Icon(_isPasswordVisible
+                                                  ? Icons.visibility
+                                                  : Icons.visibility_off),
+                                              onPressed: () {
+                                                setState(() {
+                                                  _isPasswordVisible =
+                                                      !_isPasswordVisible;
+                                                });
+                                              },
+                                            )
+                                          : null,
                                 ),
-                                const SizedBox(height: 10),
-                              ],
-                            )),
+                              ),
+                              const SizedBox(height: 10),
+                            ],
+                          );
+                        }).toList(),
                         const SizedBox(height: 20),
                         Center(
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFFF9AB0B),
-                              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 50),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                              backgroundColor: const Color(0xFFF9AB0B),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 12, horizontal: 50),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
                             ),
-                            onPressed: widget.onButtonPressed,
+                            onPressed: widget.onButtonPressed, // ✅ بدون تغيير
                             child: Text(
                               widget.buttonText,
                               style: GoogleFonts.amaranth(
@@ -137,7 +167,8 @@ class _AuthContentState extends State<AuthContent> {
                             ),
                           ),
                         ),
-                        if (widget.extraButtonText != null && widget.onExtraButtonPressed != null)
+                        if (widget.extraButtonText != null &&
+                            widget.onExtraButtonPressed != null)
                           Center(
                             child: TextButton(
                               onPressed: widget.onExtraButtonPressed,
